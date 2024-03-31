@@ -4,12 +4,12 @@ const express = require('express');
 const expressJoi = require('@escook/express-joi');
 const router = express.Router();
 // 导入路由登陆注册处理模块
-const {login, register} = require('../router_handle/login');
+const {login, register} = require('../router_handle/loginHandler');
 
 // 导入验证规则
 const {loginLimit} = require('../limit/login');
 
-router.post('/register', expressJoi(loginLimit), register)
-router.post('/login', expressJoi(loginLimit), login)
+router.post('/register', expressJoi(loginLimit), register);
+router.post('/login', expressJoi(loginLimit), login);
 
 module.exports = router;

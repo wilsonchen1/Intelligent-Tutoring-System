@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const loginRouter = require('./router/login');
+const filesRouter = require('./router/files')
 const jwtConfig = require('./jwt_config/index');
 const {expressjwt: jwt} = require('express-jwt');
 const errorHandler = require('./errHandler');
@@ -38,7 +39,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api', loginRouter);
+app.use('/api', loginRouter, filesRouter);
 
 // 不符合joi验证的报错
 app.use((req, res, next) => {
@@ -47,6 +48,6 @@ app.use((req, res, next) => {
     };
 });
 
-app.listen(8080, (req, res) => {
-    console.log('listening on http://localhost:8080');
+app.listen(3007, (req, res) => {
+    console.log('listening on http://localhost:3007');
 });
