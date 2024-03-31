@@ -4,8 +4,8 @@ const { upload, download } = require('../router_handle/filesHandler'); // 调整
 
 // 定义文件上传路由
 router.post('/upload', upload, function (req, res) {
-  // 文件上传成功后，上传到 OSS 的 URL 在 req.fileURL 中可用
-  res.send({ message: 'File uploaded successfully.', url: req.fileURL });
+    // 文件上传成功后，上传到 OSS 的 URL 在 req.fileURL 中可用
+    res.send({ message: 'File uploaded successfully.', url: req.fileURL });
 });
 
 // 定义文件下载路由
