@@ -42,10 +42,20 @@ app.use((req, res, next) => {
 app.use('/api', loginRouter, filesRouter);
 
 // 不符合joi验证的报错
-app.use((req, res, next) => {
+app.use((err, req, res, next) => {
     if(err instanceof joi.ValidationError) {
         return res.cc(err);
     };
+});
+
+// 全局错误处理器
+app.use((err, req, res, next) => {
+    if (err.name === 'UnauthorizedError') {
+        // 特别处理 JWT 认证错误
+        return res.status(401).send({message: '无效的token'});
+    }
+    // 默认情况下，其他错误以500服务器错误响应
+    res.status(500).send({message: err.message || '服务器内部错误'});
 });
 
 app.listen(3007, (req, res) => {
