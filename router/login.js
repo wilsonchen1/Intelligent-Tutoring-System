@@ -7,9 +7,9 @@ const router = express.Router();
 const {login, register} = require('../router_handle/loginHandler');
 
 // 导入验证规则
-const {loginLimit} = require('../limit/login');
+const {loginLimit, registerLimit} = require('../limit/login');
 
-router.post('/register', expressJoi(loginLimit), register);
+router.post('/register', expressJoi(registerLimit), register);
 router.post('/login', expressJoi(loginLimit), login);
 
 module.exports = router;

@@ -51,7 +51,13 @@ async function directUpload(file, filename) {
         // 保存文件URL等操作...
     } catch (err) {
         console.error("Error uploading file to OSS:", err);
-        // 处理错误...
+        // 即使上传失败也尝试删除临时文件
+        try {
+            fs.unlinkSync(file.path);
+        } catch (deleteError) {
+            console.error("Error deleting temp file:", deleteError);
+        }
+        throw err; // 可以选择重新抛出错误或进行其他处理
     }
 }
 

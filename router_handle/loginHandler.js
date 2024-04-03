@@ -7,7 +7,7 @@ const jwtConfig = require('../jwt_config/index');
 const queryUser = async (account) => {
     return new Promise((resolve, reject) => {
         const sql = 'select * from users where account = ?';
-        db.query(sql, account,(err, result) => {
+        db.query(sql, account, (err, result) => {
             if (err) {
                 reject(err);
             } else {
@@ -17,14 +17,15 @@ const queryUser = async (account) => {
     });
 }
 
-const insertUser = async (account, password) => {
+const insertUser = async (account, password, identity) => {
+    console.log(identity);
     return new Promise((resolve, reject) => {
         const sql = 'insert into users set ?';
         db.query(sql, {
             account: account,
             password: password,
             create_time: new Date(),
-            identity: 'user',
+            identity: identity,
         }, (err, result) => {
             if (err) {
                 reject(err);
@@ -43,6 +44,7 @@ const generateToken = (user) => {
 
 const register = async (req, res, next) => {
     const reqInfo = req.body;
+    console.log(reqInfo)
     if(!reqInfo) {
         return res.cc('账号或密码不能为空')
     };
@@ -55,11 +57,11 @@ const register = async (req, res, next) => {
 
         // 加密密码。并放入数据库
         const hashPassword = bcrypt.hashSync(reqInfo.password, 10);
-        await insertUser(reqInfo.account, hashPassword);
+        await insertUser(reqInfo.account, hashPassword, reqInfo.identity);
 
         res.send({
             status: 0,
-            message: '账号注册成功'
+            message: '账号注册成功，请重新登录'
         });
     } catch (err) {
         next(err);

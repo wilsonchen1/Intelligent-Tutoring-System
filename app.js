@@ -2,10 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const loginRouter = require('./router/login');
-const filesRouter = require('./router/files')
+const filesRouter = require('./router/files');
+const usersRouter = require('./router/users');
 const jwtConfig = require('./jwt_config/index');
 const {expressjwt: jwt} = require('express-jwt');
-const errorHandler = require('./errHandler');
 const joi = require('joi');
 const app = express();
 
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api', loginRouter, filesRouter);
+app.use('/api', loginRouter, filesRouter, usersRouter);
 
 // 不符合joi验证的报错
 app.use((err, req, res, next) => {
