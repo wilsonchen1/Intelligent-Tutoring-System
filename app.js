@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const loginRouter = require('./router/login');
 const filesRouter = require('./router/files');
 const usersRouter = require('./router/users');
+const generateRouter = require('./router/generate');
+const postsRouter = require('./router/posts');
 const jwtConfig = require('./jwt_config/index');
 const {expressjwt: jwt} = require('express-jwt');
 const joi = require('joi');
@@ -12,7 +14,7 @@ const app = express();
 app.use(cors());
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
@@ -39,7 +41,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api', loginRouter, filesRouter, usersRouter);
+app.use('/api', loginRouter, filesRouter, usersRouter, generateRouter, postsRouter);
 
 // 不符合joi验证的报错
 app.use((err, req, res, next) => {
