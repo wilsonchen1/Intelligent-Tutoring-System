@@ -1,5 +1,4 @@
 const db = require('../db/index');
-const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 // 在node环境执行python代码
@@ -74,7 +73,7 @@ const generatePaper = async (req, res, next) => {
         const singleBlock = knowledgePoints.join(',') + '\n';
 
         // 重复这个字符串10次
-        const dataToWrite = Array(10).fill(singleBlock).join('');
+        const dataToWrite = Array(2).fill(singleBlock).join('');
         console.log(dataToWrite)
         // const dataToWrite = knowledgePoints.join('\n');
         const inputFilePath = path.join(__dirname, '../python_modules/data_input.txt');

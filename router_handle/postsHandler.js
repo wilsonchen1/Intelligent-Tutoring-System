@@ -65,7 +65,10 @@ const getAllPosts = async () => {
                         });
                     }
                 });
-                resolve(Object.values(posts)); // 返回一个帖子数组，每个帖子包括它的回复列表
+                // 由于对象（在ECMAScript 2015及以后版本中的普通对象）在迭代属性时保持插入顺序，
+                // 这意味着最初插入到对象中的属性（帖子）将首先被迭代。因此，虽然数据库返回的结果是按照创建时间排序的，
+                // 但在你的代码中通过 posts[row.post_id] 插入时，是按照它们首次出现的顺序（也就是它们在数据库中的原始id顺序）插入的。
+                resolve(Object.values(posts).sort((a, b) => new Date(b.create_time) - new Date(a.create_time)));
             }
         });
     });
